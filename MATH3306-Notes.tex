@@ -34,7 +34,7 @@
 \date{}
 
 \begin{document}
-%
+
 \begin{titlepage}
     \vspace*{\fill}
     \begin{center}
@@ -49,9 +49,36 @@
     \thispagestyle{empty}
 \end{titlepage}
 \newpage
-%
+
 \tableofcontents
 \newpage
-%
-\section{Section 1}
+
+\section{Introductory notes}
+\subsection{Gödel's incompleteness theorem}
+\begin{theorem}[Gödel's incompleteness theorem, baby version]
+    There are true mathematical statements that cannot be proven.
+\end{theorem}
+\begin{proof}[``Proof'']
+    Take the statement ``This statement has no proof.''
+
+    \emph{Assume it is false.}
+    This implies that the statement has a proof.
+    If the statement has a proof, it must be true, contradiction!
+    
+    \emph{Assume it is true.}
+    This implies that the statement has no proof.
+    Therefore, the statement cannot be proven.
+\end{proof}
+\subsection{The halting problem}
+The halting problem is undecidable.
+
+TODO:\@ Add context and proof.
+\subsection{Defining algorithms}
+In defining algorithms, Turing machines
+and recursive functions will be the primary focus.
+Grammars and code are also alternatives. 
+\begin{definition}[Church-Turing thesis, informal]
+    Any reasonable definitions of ``algorithm'' are equivalent.
+\end{definition}
+
 \end{document}
