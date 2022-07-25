@@ -1,0 +1,57 @@
+% !TeX TS-program = xelatex
+% !TeX options = -aux-directory=Debug -shell-escape -file-line-error -interaction=nonstopmode -halt-on-error -synctex=1 "%DOC%"
+\documentclass{article}
+\input{LaTeX-Submodule/template.tex}
+
+% Additional packages & macros
+\geometry{a4paper}
+
+% Header and footer
+% ! Unit name
+\newcommand{\unitName}{Set Theory \& Mathematical Logic}
+% ! Unit code
+\newcommand{\unitCode}{MATH3306}
+% ! Unit semester 
+\newcommand{\unitTime}{Semester 2, 2022}
+% ! Unit coordinator name
+\newcommand{\unitCoordinator}{Professor Benjamin Burton}
+% ! Document authors
+\newcommand{\documentAuthors}{Rohan Boas}
+
+\fancyhead[L]{\unitName}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{\thepage}
+
+% Copyright
+\usepackage[
+    type={CC},
+    modifier={by-nc-sa},
+    version={4.0},
+    imagewidth={5em},
+    hyphenation={raggedright}
+]{doclicense}
+
+\date{}
+
+\begin{document}
+%
+\begin{titlepage}
+    \vspace*{\fill}
+    \begin{center}
+        \Large{\unitCode} \\[0.05in]
+        \LARGE{\textbf{\unitName}} \\[0.1in]
+        \normalsize{\unitTime} \\[0.2in]
+        \normalsize\textit{\unitCoordinator} \\[0.2in]
+        \documentAuthors
+    \end{center}
+    \vspace*{\fill}
+    \doclicenseThis
+    \thispagestyle{empty}
+\end{titlepage}
+\newpage
+%
+\tableofcontents
+\newpage
+%
+\section{Section 1}
+\end{document}
