@@ -41,3 +41,5 @@
 
 # Miscellaneous 
 *.fls
+*.out.ps
+*.dvi

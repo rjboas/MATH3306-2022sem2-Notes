@@ -55,7 +55,7 @@
 
 \section{Introductory notes}
 \subsection{Gödel's incompleteness theorem}
-\begin{theorem}[Gödel's incompleteness theorem, baby version]
+\begin{theorem}[Gödel's incompleteness theorem, informal version]
     There are true mathematical statements that cannot be proven.
 \end{theorem}
 \begin{proof}[``Proof'']
@@ -64,21 +64,119 @@
     \emph{Assume it is false.}
     This implies that the statement has a proof.
     If the statement has a proof, it must be true, contradiction!
-    
+
     \emph{Assume it is true.}
     This implies that the statement has no proof.
     Therefore, the statement cannot be proven.
 \end{proof}
 \subsection{The halting problem}
+We would like to be able to know if an algorithm or program
+will halt or will loop forever.
+Can we write an algorithm which can tell us whether or not
+a given program will halt on a given input?
+This is known as the halting problem.
 The halting problem is undecidable.
+\begin{proof}[Proof by contradiction]
+    Say there does exist some program H which solves the halting problem.
+    Let us define H.
+    H takes as inputs a program, \(x\),
+    and an input for that program, \(y\).
 
-TODO:\@ Add context and proof.
+    \[
+        \text{H}(x,y) =
+        \begin{cases}
+            \text{YES}, \quad & \text{if } x \text{ halts on input } y         \\
+            \text{NO},        & \text{if } x \text{ loops forever on input } y
+        \end{cases}
+    \]
+
+    Let us define a program Foo.
+    \[
+        \text{Foo}(x) =
+        \begin{cases}
+            \text{loops forever}, \quad & \text{if } \text{H}(x,x) \text{ is YES} \\
+            \text{halts}, \quad         & \text{if } \text{H}(x,x) \text{ is NO}  \\
+        \end{cases}
+    \]
+
+    TODO: finish proof, maybe rewrite with diagram
+\end{proof}
+
 \subsection{Defining algorithms}
 In defining algorithms, Turing machines
 and recursive functions will be the primary focus.
-Grammars and code are also alternatives. 
-\begin{definition}[Church-Turing thesis, informal]
+Grammars and code are also alternatives.
+\begin{definition}[Church-Turing thesis, informal version]
     Any reasonable definitions of ``algorithm'' are equivalent.
 \end{definition}
+\newpage
+\section{Finite and deterministic state automata}
+\subsection{Finite state automata}
+\begin{definition}[Alphabet]
+    An alphabet \(A\) is a finite set of symbols.
+\end{definition}
+\begin{definition}[Word]
+    A word is a sequence of symbols from \(A\).
+\end{definition}
+\begin{theorem}
+    Words can be concatenated.
+    E.g. \ for words \(\alpha\) representing ``bob'',
+    and \(\beta\) representing ``cat'',
+    \(\alpha\beta\alpha\) represents ``bobcatbob''.
+\end{theorem}
+\begin{theorem}
+    The set of words length \(m\) is \(A^m = A\times A\times \ldots \times A\).
+\end{theorem}
+\begin{theorem}
+    The empty word (i.e.\ of length 0) is \(\varepsilon\).
+\end{theorem}
+\begin{theorem}
+    \(A^*\) is the set of all words over \(A\). \(A^* = \bigcup_{m\ge 0} A^m\).
+\end{theorem}
+\begin{theorem}
+    \(A^+\) is the set of all non-empty words over \(A\). \(A^+ = \bigcup_{m\ge 1} A^m\).
+\end{theorem}
+\begin{definition}[Language]
+    A language is a subset of \(A^*\)
+\end{definition}
+\begin{definition}[Finite state automata]
+    A finite state automaton (FSA)
+    can be defined as the 5-tuple
+    \(\left(Q, F, A, \tau, q_o\right)\) where
+    \begin{itemize}
+        \item    \(Q\) is a finite set of states,
+        \item    \(F\subseteq Q\) is the set of final/accepting states,
+        \item    \(A\) is a finite alphabet,
+        \item    \(\tau\subseteq Q\times A\times Q\) is the set of transitions, and
+        \item    \(q_0\) is the initial state.
+    \end{itemize}
+\end{definition}
+\begin{definition}[Computation]
+    A computation is a sequence \(q_0 a_1 q_1 a_2 \ldots a_n q_n\)
+    such that each \(q_i a_{i+1} q_{i+1} \in \tau\).
+\end{definition}
+\begin{definition}[Successful]
+    A computation is successful if \(q_n \in F\).
+\end{definition}
+\begin{definition}[Accepted]
+    A word \(\alpha = a_1 a_2 \ldots a_n\)
+    is accepted by the FSA if there is a
+    successful computation \(q_0 a_1 q_1 a_2 \ldots a_n q_n\).
+\end{definition}
+\begin{definition}[Recognised]
+    The language recognised by an FSA is
+    the set of all words it accepts. 
+\end{definition}
+\subsection{Deterministic state automata}
+\begin{definition}[Deterministic state automata]
+    A deterministic state automaton (DSA) is an FSA where
+    \(
+        \forall q \in Q, \forall a \in A,
+        \exists! q' \in Q \st \left(q,a,q'\right)\in\tau
+    \)
+\end{definition}
+\begin{theorem}
+    The definition of DSA implies there exists a function \(\delta: Q \times A \to A\).
+\end{theorem}
 
 \end{document}
