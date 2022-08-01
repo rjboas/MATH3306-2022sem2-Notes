@@ -5,6 +5,7 @@
 
 % Additional packages & macros
 \geometry{a4paper}
+\DeclareMathOperator{\blank}{\text{\textvisiblespace}}
 
 % Header and footer
 % ! Unit name
@@ -167,16 +168,114 @@ Grammars and code are also alternatives.
     The language recognised by an FSA is
     the set of all words it accepts. 
 \end{definition}
-\subsection{Deterministic state automata}
-\begin{definition}[Deterministic state automata]
-    A deterministic state automaton (DSA) is an FSA where
+\begin{remark}
+    A FSA is like a backtracking search.
+\end{remark}
+\subsection{Deterministic finite state automata}
+\begin{definition}[Deterministic finite state automata]
+    A deterministic state automaton (DFA) is an FSA where
     \(
         \forall q \in Q, \forall a \in A,
         \exists! q' \in Q \st \left(q,a,q'\right)\in\tau
     \)
 \end{definition}
 \begin{theorem}
-    The definition of DSA implies there exists a function \(\delta: Q \times A \to A\).
+    The definition of DFA implies there exists a function \(\delta: Q \times A \to A\).
 \end{theorem}
+\begin{theorem}
+    FSA and DFA solve the same problems.
+    
+    A DFA is already an FSA,
+    and an FSA can be represented by a DFA of the reachable sets of states.
+    Though, for an FSA with \(n\) states,
+    the corresponding DFA has up to \(2^n\) states.
+\end{theorem}
+\begin{theorem}
+    FSA/DFA can perform addition.
+\end{theorem}
+\begin{theorem}
+    FSA/DFA \emph{cannot} perform multiplication.
+\end{theorem}
+\begin{theorem}
+    To recognise an infinite language of a DFA with a finite complement,
+    find the complement and swap accepting and rejecting states.
+\end{theorem}
+
+\section{Turing machines}
+\begin{definition}[Turing machine]
+    A Turing machine (TM) is a FSA with infinite memory
+    in the form of a tape.
+    
+    A Turing machine is a tuple \(\left(Q, F, \blank, A, I, \tau, q_0\right)\) where
+    \begin{itemize}
+        \item    \(Q\) is a finite set of states,
+        \item    \(F\subseteq Q\) is the set of final/accepting states,
+        \item    \(\blank\) is the ``blank'' symbol
+        which is present on the tape where no new symbol has been written,
+        \item    \(A\) is a finite alphabet of all symbols
+        that may be on the tape (including \(\blank\)),
+        \item    \(I\subseteq A - \left\{\blank\right\}\) is a finite alphabet of all
+        symbols from the input sequence,
+        \item    \(\tau\subseteq Q\times A\times Q\times A\times \left\{L, R\right\}\)
+        is the set of transitions, and
+        \item    \(q_0\) is the initial state.
+    \end{itemize}
+\end{definition}
+\begin{definition}[Tape]
+    A tape is a tuple \(\left(a, \alpha, \beta\right)\) where
+    \begin{itemize}
+        \item \(a\in A\),
+        \item \(\alpha, \beta : \N\to A\), and
+        \item \(\alpha(i), \beta(i) \ne \blank\) for only finitely many \(i\).
+    \end{itemize}
+\end{definition}
+\begin{definition}[Configuration]
+    A configuration is a snapshot of the state.
+
+    A configuration is a tuple \(\left(q\in Q, a, \alpha, \beta\right)\).
+\end{definition}
+\begin{definition}[Reachable]
+    A configuration \(c'\) is reachable from \(c\) in a single move if
+    for \(c = \left(q, a, \alpha, \beta\right)\),
+    (in the case of moving to the right)
+    \(c' = \left(q', a(0), \alpha', \beta'\right)\) where
+    \begin{itemize}
+        \item \(\alpha'(i)=\alpha(i+1) \quad \forall i \in \N\),
+        \item \(\beta'(i)=\begin{cases}
+            \beta(i-1) & \forall i \ge 1 \\
+            a' & i=0
+        \end{cases}\), and
+        \item \(\left(q, a, q', a', R\right)\in\tau\).
+    \end{itemize}
+\end{definition}
+\begin{definition}[Computation]
+    A computation is a finite sequence of configurations
+    \(c_0 c_1 c_2 \ldots c_n\) \st
+    \(c_i\) is reachable from \(c_{i-1}\) is a single move for all \(i\).
+\end{definition}
+\begin{definition}[Terminal]
+    A configuration is terminal if no configuration is reachable from it.
+    A Turing machine halts upon reaching such a configuration.
+\end{definition}
+\begin{definition}[Acceptinng]
+    A Turing machine accepts a word \(w\in I^*\)
+    if there exists some computation from the initial state \(c_w\)
+    to some final state.
+\end{definition}
+\begin{definition}[Recognised]
+    The language recognised by a Turing machine
+    is the set of all words \(w \in I^*\) that the Turing machine accepts.
+\end{definition}
+\begin{definition}[Deterministic]
+    A Turing machine is deterministic if   
+    for all \(q\) and \(a\), there exists at most one tuple
+    \(\left(q, a, q', a', d\right)\in\tau\).
+\end{definition}
+\begin{theorem}
+    The transitions of a Turing machine are partial functions
+    of the form
+    \(\delta : Q\times A \to Q \times A \times \left\{L, R\right\}\)
+\end{theorem}
+% TODO: Aside on P vs NP?
 
 \end{document}
