@@ -126,7 +126,7 @@ Grammars and code are also alternatives.
     \(\alpha\beta\alpha\) represents ``bobcatbob''.
 \end{theorem}
 \begin{theorem}
-    The set of words length \(m\) is \(A^m = A\times A\times \ldots \times A\).
+    The set of words length \(m\) is \(A^m = A\times A\times \cdots \times A\).
 \end{theorem}
 \begin{theorem}
     The empty word (i.e.\ of length 0) is \(\varepsilon\).
@@ -168,9 +168,9 @@ Grammars and code are also alternatives.
     The language recognised by an FSA is
     the set of all words it accepts. 
 \end{definition}
-\begin{remark}
+\begin{note}
     A FSA is like a backtracking search.
-\end{remark}
+\end{note}
 \subsection{Deterministic finite state automata}
 \begin{definition}[Deterministic finite state automata]
     A deterministic state automaton (DFA) is an FSA where
@@ -201,6 +201,7 @@ Grammars and code are also alternatives.
     find the complement and swap accepting and rejecting states.
 \end{theorem}
 
+\newpage
 \section{Turing machines}
 \begin{definition}[Turing machine]
     A Turing machine (TM) is a FSA with infinite memory
@@ -277,5 +278,101 @@ Grammars and code are also alternatives.
     \(\delta : Q\times A \to Q \times A \times \left\{L, R\right\}\)
 \end{theorem}
 % TODO: Aside on P vs NP?
+\newpage
+\section{Recursive functions}
+\subsection{Base definitions}
+\begin{definition}[Total function]
+    A total function is an ordinary function, i.e.
+    \(f: D\to C \st f\subseteq D\times C \text{ where }
+    \forall d \in D \,\exists! c\in C \st \left( d, c \right)\in f\).
+\end{definition}
+\begin{definition}[Partial function]
+    A partial function is \(f: D\to C \st f\subseteq D\times C \text{ where }
+    \forall d \in D \,\exists_{\leq 1} c\in C \st \left( d, c \right)\in f\).
+    I.e.\ undefined values are permitted.
+\end{definition}
+\begin{note}
+    By convention, if not specified a function is \(f:\N^r\to\N\).
+\end{note}
+
+\subsection{Initial functions}
+\begin{itemize}
+    \item Zero: \(z:\N\to\N,\; z(n) = 0 \;\forall n\)
+    \item Successor: \(\sigma:\N\to\N,\; \sigma(n) = n + 1 \;\forall n\)
+    \item Projection: \(\pi_{i,n}:\N^n\to\N,\; \pi_{i,n}(k_1,\ldots,k_n) = k_i\)
+\end{itemize}
+\begin{definition}[Composition]
+    Given \(g:\N^r\to\N\), and
+    \(h_1,\ldots,h_r:\N^n\to\N\),
+    \(f:\N^n\to\N\) is defined by
+    \begin{align*}
+        f(x_1,\ldots,x_n) 
+        = g(& \\
+        &\quad h_1(x_1,\ldots,x_n), \\
+        &\qquad \vdots \\
+        &\quad h_r(x_1,\ldots,x_n) \\
+        )
+    \end{align*}
+\end{definition}
+\subsection{Primitive recursion}
+\begin{definition}[Primitive recursion]
+    A primitive recursion on
+    \(g:\N^n\to\N\) and
+    \(h:\N^{n+2}\to\N\)
+    is defined as \(f:\N^{n+1}\to\N\) \st
+    \begin{align*}
+        f\left(x_1,\ldots,x_n,0\right) = g(&x_1,\ldots,x_n) \\
+        f\left(x_1,\ldots,x_n,y+1\right) = h(&
+            \\
+            &\quad x_1,\ldots,x_n, \\
+            &\quad y, \\
+            &\quad f\left(x_1,\ldots,x_n,y+1\right) \\
+        &)
+    \end{align*}
+\end{definition}
+\begin{note}
+    Primitive recursion can only go from \(y\) to \(y+1\)
+    and can only recurse over a signle variable.
+\end{note}
+\begin{note}
+    We can only return a single integer, however,
+    we can store pairs etc.\ by combining them in a retrievable way,
+    for example, \(2^x \times 3^y\) could be chosen to store \(\left( x,y \right)\).
+\end{note}
+\begin{theorem}
+    Primitive recursive functions are the smallest class of functions
+    that contain the initial functions and
+    is closed under composition and primitive recusrsion.
+\end{theorem}
+\begin{theorem}
+    Addition can be represented as a primitive recusrion, \(s(x, y) = x+y\),
+    with
+    \begin{align*}
+        s(x,0) &= \pi_{1,1}(x) \\
+        s(x,y+1) &= \sigma(s(x,y))
+    \end{align*}
+\end{theorem}
+\begin{theorem}
+    Multiplication can be represented as a primitive recusrion, \(m(x, y) = x\times y\),
+    with
+    \begin{align*}
+        m(x,0) &= z(x) \\
+        m(x,y+1) &= s(x, m(x,y))
+    \end{align*}
+\end{theorem}
+\begin{definition}[Primitive recusrive definition of a function]
+    The primitive recusrive definition of a function
+    \(f:\N^n\to\N\) is a finite set of functions \(\left\{f_0,\ldots,f_k\right\}\) \st
+    \begin{align*}
+        \forall i,\, f_i &= \begin{cases}
+            \text{initial function} \\
+            \text{composition of functions from } \left\{ f_j \,|\, j < i \right\} \\
+            \text{primitive recursion of functions from } \left\{ f_j \,|\, j < i \right\}
+        \end{cases} 
+    \end{align*}
+\end{definition}
+\begin{theorem}
+    A primitive recursion is equivalent to a primitive recusrive definition.
+\end{theorem}
 
 \end{document}
