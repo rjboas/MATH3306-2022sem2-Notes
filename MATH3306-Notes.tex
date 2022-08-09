@@ -7,6 +7,27 @@
 \geometry{a4paper}
 \DeclareMathOperator{\blank}{\text{\textvisiblespace}}
 
+\usepackage{tikz}
+\usetikzlibrary{automata} % Import library for drawing automata
+\usetikzlibrary{positioning} % ...positioning nodes
+\usetikzlibrary{arrows.meta} % ...customizing arrows
+\tikzset{
+    node distance=2.0cm, % Minimum distance between two nodes. Change if necessary.
+    every state/.style={ % Sets the properties for each state
+        semithick,
+        fill=gray!10
+    },
+    initial text={}, % No label on start arrow
+    double distance=2pt, % Adjust appearance of accept states
+    every edge/.style={ % Sets the properties for each transition
+        draw,
+        ->,
+        % >=stealth’, % Makes edges directed with bold arrowheads
+        auto,
+        semithick
+    }
+}
+
 % Header and footer
 % ! Unit name
 \newcommand{\unitName}{Set Theory \& Mathematical Logic}
@@ -171,6 +192,28 @@ Grammars and code are also alternatives.
 \begin{note}
     A FSA is like a backtracking search.
 \end{note}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \node[state] (A) {$-$};
+    \node[state, above right of=A] (B) {};
+    \node[state, below right of=B] (R) {$R$};
+    \node[state, right of=B] (Z) {+};
+    \draw (A) edge node {$a$} (B);
+    \draw (A) edge node {$b$} (R);
+    \draw (B) edge node {$a$} (R);
+    \draw (B) edge node {$b$} (Z);
+    \draw (R) edge[loop below] node {$a$} (R);
+    \draw (R) edge[loop right] node {$b$} (R);
+    \draw (Z) edge[loop above] node {$a$} (Z);
+    \draw (Z) edge[loop right] node {$b$} (Z);
+    \end{tikzpicture}
+    \caption{
+        A simple FSA (that is also a DFA)
+    }
+    \(-\) denotes the initial state, \(+\) is an accepting state,
+    and \(R\) is a rejection state/``black hole''.
+\end{figure}
 \subsection{Deterministic finite state automata}
 \begin{definition}[Deterministic finite state automata]
     A deterministic state automaton (DFA) is an FSA where
@@ -374,5 +417,92 @@ Grammars and code are also alternatives.
 \begin{theorem}
     A primitive recursion is equivalent to a primitive recusrive definition.
 \end{theorem}
+\begin{theorem}
+    The constant function is \(c_i:\N\to\N\) where
+    \(c_i(x)=i\).
+    
+    \[
+        c_i=\overbrace{
+            \sigma\left( \sigma\left(  \ldots \sigma\left( z \right) \right) \right)
+        }^{i \text{ times}}
+    \]
+\end{theorem}
+\begin{theorem}
+    The sign function \(Sg:\N\to\N\) is
+    \begin{equation*}
+        Sg(x) = \begin{cases}
+            0, & x = 0 \\
+            1, & x > 0
+        \end{cases}
+    \end{equation*}
+
+    TODO: show proof/primitive recursion
+\end{theorem}
+\begin{theorem}
+    The predecessor function \(Pred:\N\to\N\) is
+    \begin{equation*}
+        Pred(x) = \begin{cases}
+            0  , & x = 0 \\
+            x-1, & x > 0
+        \end{cases}
+    \end{equation*}
+
+    TODO: show proof/primitive recursion
+\end{theorem}
+\begin{theorem}
+    The subtraction function \(\dotminus:\N^2\to\N\) is
+    \begin{equation*}
+        x\dotminus y = \begin{cases}
+            0  , & x < y \\
+            x-y, & x \ge y
+        \end{cases}
+    \end{equation*}
+
+    TODO: show proof/primitive recursion
+\end{theorem}
+\begin{theorem}
+    The absolute value function \(\left|x-y\right|:\N^2\to\N\) is
+    \begin{equation*}
+        \left|x-y\right| = \begin{cases}
+            y-x  , & x < y \\
+            x-y, & x \ge y
+        \end{cases}
+    \end{equation*}
+    \[
+        \left|x-y\right| = \left( x \dotminus y \right) + \left( y \dotminus x \right)
+        = s\left( x \dotminus y, y \dotminus x \right)
+    \]
+\end{theorem}
+\begin{theorem}
+    The exponentiation function \(x^y:\N^2\to\N\) is
+    \begin{align*}
+            x^0 &= 1 \\
+            x^{y+1} &= m(x^y, x)
+    \end{align*}
+\end{theorem}
+\begin{theorem}
+    For every function \(f:\N\to\N\) there is a summation function \(\sum_{i=0}^x f(i)\).
+\end{theorem}
+\begin{theorem}
+    If \(f\) is primitive recursive then \(\sum_{i=0}^x f(i)\) is
+    also primitive recusrive.
+    
+    TODO: add proof/illustration of prim. recursiveness
+\end{theorem}
+\begin{theorem}
+    For every function \(f:\N\to\N\) there is a
+    bounded minimisation function \(\min_{i\le y} f(i)\).
+    This function gives the smallest \(f(i) \ne 0\),
+    and gives \(y+1\) if all \(f(i) = 0\).
+
+    TODO: add proof/illustration of prim. recursiveness
+\end{theorem}
+\begin{note}
+    The following are not primitive recursive:
+    \begin{enumerate}
+        \item Unbounded summantion
+        \item Unbounded minimum
+    \end{enumerate}
+\end{note}
 
 \end{document}
