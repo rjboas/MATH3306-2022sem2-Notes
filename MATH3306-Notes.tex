@@ -479,6 +479,8 @@ Grammars and code are also alternatives.
             x^0 &= 1 \\
             x^{y+1} &= m(x^y, x)
     \end{align*}
+    
+    N.B. tetration is also primitive recursive.
 \end{theorem}
 \begin{theorem}
     For every function \(f:\N\to\N\) there is a summation function \(\sum_{i=0}^x f(i)\).
@@ -500,9 +502,157 @@ Grammars and code are also alternatives.
 \begin{note}
     The following are not primitive recursive:
     \begin{enumerate}
-        \item Unbounded summantion
+        \item Unbounded/infinite summantion
         \item Unbounded minimum
     \end{enumerate}
 \end{note}
+\begin{theorem}
+    The Ackerman function is \(f:\N^2\to\N\) where
+    \[
+        f(x,y) = \begin{cases}
+            y+1, & x=0 \\
+            f(x-1, 1), & y=0<x \\
+            f(x-1, f(x, y-1)), & \text{otherwise}
+        \end{cases}
+    \]
+    
+    \begin{figure}[H]
+        \begin{center}
+        \begin{tabular}{c|c|c|c|c|c|c|c}
+         & x=0 & 1 & 2 & 3 & 4 & 5 & \(\cdots\) \\
+        \midrule
+        y=0 & 1 & 2 & 3 & 4 & 5 & 6  & \(\cdots\)\\ \midrule
+        1 & 2 & 3 & 4 & 5 & 6 & 7  & \(\cdots\)\\ \midrule
+        2 & 3 & 5 & 7 & 9 & 11 & 13  & \(\cdots\)\\ \midrule
+        3 & 5 & 13 & 29 & 61 & 125 & 253  & \(\cdots\)\\ \midrule
+        4 & 13 & 65533 & \text{huge} & \(\cdots\) & \(\cdots\) & \(\cdots\)  & \(\cdots\)\\ \midrule
+        \end{tabular}            
+        \end{center}
+        \caption{A table of some values of the Ackerman function}
+    \end{figure}
+\end{theorem}
+\begin{theorem}
+    The Ackerman function is \emph{not} primitive recursive.
+   
+    % \begin{proof}
+
+    % Notation: \(A_m(n):\N\to\N\) is the \(n\)th row of the Ackerman function
+    % which is \(A(m,n)\),
+    % i.e. \(A_0(n)=n+1\), \(A_1(n)=n+2\), etc.
+    
+    % Facts for all \(m, n\)
+    % \begin{itemize}
+    %     \item \(n<A_m(n)\)
+    %     \item \(A_m(n)<A_m(n+1)\)
+    %     \item \(A_m(n)<A_{m+1}(n)\)
+    % \end{itemize}
+    % Proofs left as an excersise to the reader.
+    
+    % Notation: \(f^{(k)}(x) = \overbrace{f(f(\cdots f(x))\cdots)}^{k \text{ times}}\)
+    % \begin{lemma}
+    %     \[n \le A_0^{(n-1)}(1) \forall m, \forall n \ge 1\]
+    %     \begin{proof}
+
+    %         For \(m=0\),
+    %         \(n \le A_0^{(n-1)}(1) = 1 + \overbrace{1+1+\cdots+1}^{n-1 \text{ times}} = n\).
+
+    %         For \(m>0\),
+    %         \begin{align*}
+    %             A_m^{(n-1)}(1) &= \overbrace{A_m(A_m(\cdots A_m(1))\cdots)}^{n-1 \text{ times}} \\
+    %             &\ge \overbrace{A_{m-1}(A_m(\cdots A_m(1))\cdots)}^{n-1 \text{ times}} \\
+    %             &\ge \overbrace{A_{m-1}(A_{m-1}(\cdots A_m(1))\cdots)}^{n-1 \text{ times}} \\
+    %             &\ge A_{m-1}^{(n-1)}(1) \ge n
+    %         \end{align*}
+    %     \end{proof}
+    % \end{lemma}
+    % \begin{lemma}
+    %     \[A_m^{(n+1)}(1)=A_{m+1}(n)\]
+    %     \begin{proof}
+            
+    %         For \(m=0\),
+    %         \begin{align*}
+    %              A_m^{(n+1)}(1) &= \overbrace{1+1+\cdots+1}^{n+1 \text{ times}} = n + 2 \\
+    %              &= A_1(n) = n+2 \\
+    %         \end{align*}
+            
+    %         For \(m>0\), induct on \(n\).
+    %         Base case: \(A_m^{(1)}(1)=A_{m+1}(0)\), true by formula.
+    %         Inductive step:
+    %         Let \(n>0\),
+    %         \begin{align*}
+    %             A_m^{(n+1)}(1) &= A_{m+1}(n) \\
+    %                            &= A_m(A_{m+1}(n-1)) \\
+    %                            &= A_m(A_{m}^{(n)}(1)) \\
+    %                            &= A_{m}^{(n+1)}
+    %         \end{align*}
+    %     \end{proof}
+    % \end{lemma}
+    
+    % Finish proof:
+
+    % Claim: \(\forall\) primitive recursive functions \(p:\N^n\to\N\),
+    % \(\exists i \st p<A_i\).
+    % I.e. it can be bound by a row of the Ackerman function.
+    
+    % \begin{proof}
+    %     Induct on length of the primitive recusrive definition.
+        
+    %     Initial functions:
+    %     \begin{align*}
+    %         z(n) &< A_0(n) \\
+    %         \sigma(n) &< A_1(n) \\
+    %         \pi_{i,n}(x_1,\ldots,x_n) &< \max x_1,\ldots,x_n < A_0(\max x_1,\ldots,x_n)
+    %     \end{align*}
+        
+    %     Composition:
+    %     Suppose \(g,h:\N\to\N\).
+    %     \(g\) is prim. rec., \(g < A_i\)
+    %     and
+    %     \(h\) is prim. rec.,\(h < A_j\).
+
+    %     Find some row \(q\) \st \(g(h(n))<A_q(n)\).
+        
+    %     Claim:
+    %     \(g(h(n))<A_{m+2}(n)\) where \(m=\max (i,j)\).
+    %     Since 
+    %     \begin{align*}
+    %         g(h(n)) &< A_i(A_j(n)) \\
+    %         &\le A_m(A_{m+1}(n)) \\
+    %         &\le A_m(A_m^{(n+1)}(n)) \\
+    %         &\le A_m^{(n+2)}(n) \\
+    %         &\le A_{m+1}(n+1) \\
+    %         &\le A_{m+2}(n) \quad \text{(proof of this lemma elided)}
+    %     \end{align*}
+        
+    %     Primitive recusrion:
+    %     Let \(g:\N^n\to\N\), \(h:\N^{n+2}\to\N\).
+    %     \begin{align*}
+    %         f(x,\ldots,x_n,0) &= g(x,\ldots,x_n) \\
+    %         f(x,\ldots,x_n,y+1) &= h(x,\ldots,x_n,y,f(x,\ldots,x_n,y))
+    %     \end{align*}
+    %     Assume
+    %     \begin{align*}
+    %         g(x,\ldots,x_n) &< A_r(\max x_i) \\
+    %         h(x,\ldots,x_n,y,f(x,\ldots,x_n,y,z)) &< A_s(\max x_i,y,z)
+    %     \end{align*}
+    %     Claim: \(f(x,\ldots,x_n,0) < A_q(y+\max x_i)\) where \(q=\max(r,s)+1\).
+
+    %     Proof elided.
+    % \end{proof}
+        
+    %     Let \(z = \max x_i, y\).
+        
+    %     Claim: \(f(x,\ldots,x_n,y) \le A_{q+1}(\max x_i,y)\).
+        
+    %     Proof elided.
+    % \end{proof}
+    
+    I tried transcribing the proof but it turned into a bit of a mess,
+    see lecture 2 of week 3 recording for the full thing or the source code
+    where I've left my attempt commented out.
+\end{theorem}
+\begin{remark}
+    Primitive recusrion is not the ``right'' definition of ``computable''.
+\end{remark}
 
 \end{document}
