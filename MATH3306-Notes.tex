@@ -718,5 +718,136 @@ Grammars and code are also alternatives.
     the running time to compute \(f\) (on a TM)
     is at most \(2[k]n\) for some fixed \(k\in\N\).
 \end{theorem}
+\begin{definition}[Minimisation]
+    Minimisation (unbounded)
+    is a partial function \(\mu y\).
+    \begin{align*}
+        \mu y f(\underline{x}, y) = \begin{cases}
+            r & f(\underline{x}, r) =
+            0
+            \text{ or } f(\underline{x}, s) \ne 0
+            \text{ and is defined } \forall s < r \\
+            \text{undefined}
+        \end{cases}
+    \end{align*}
+\end{definition}
+\begin{definition}[Regular minimisation]
+    Regular minimisation is \(\mu y\) where
+    \(\mu y f(\underline{x}, y) = 0\) is defined for all \(\underline{x}\).
+\end{definition}
+\begin{definition}[Partial recursive functions]
+The smallest class that contains the initial functions
+and is closed under composition, primitive recusrion and minimisation.
+\end{definition}
+\begin{definition}[Recursive functions]
+The smallest class that contains the initial functions
+and is closed under composition, primitive recusrion and regular minimisation.
+\end{definition}
+\begin{definition}[Numerical Turing machines]
+    A numerical Turing machine is a
+    deterministic Turing machine
+    with no final states
+    and the alphabest is \(\left\{ 0, 1 \right\}\)
+    where \(0\) is the blank symbol.
+\end{definition}
+\begin{theorem}
+    To compute \(f(x_1, \ldots, x_n)\) on a numerical TM,
+    start with an initial tape with \(x_1\) 1s, a 0, \(x_2\) 1s, a 0, and so on,
+    with the head at the 0 before \(x_1\).
+    Let it run.
+    If it halts in a configuration like \(00\ldots \overline{0}11\ldots 100\ldots \)
+    then the output is the number of 1s, else undefined.
+\end{theorem}
+\begin{theorem}
+    \(\forall\) numerical TMs \(T\),
+    \(\forall n \ge 1\), \(T\) defines a partial function
+    \(\varphi_{T,n}:\N^n\to\N\).
+\end{theorem}
+\begin{theorem}
+    \(f:\N^n\to\N\) is TM-computable if
+    there is some TM which computes \(f\).
+\end{theorem}
+\begin{theorem}
+    \(f\) is partial recusrive iff \(f\) is TM-computable.
+\end{theorem}
+\begin{definition}[Decidable]
+    Some predicate \(P\) is decidable if \(\chi_P\)
+    is recursive.
+\end{definition}
+\begin{definition}[Halting problem]
+    \[
+        g:\N^2\to\N=\begin{cases}
+        1 & \text{ if \(x\) represents a TM and \(\varphi_{T_x, 1}(i)\) is defined} \\
+        0
+        \end{cases}
+    \]
+    \begin{theorem}
+        \(g\) is not partial recursive.
+        
+        \begin{proof}
+            Let \(f:\N\to\N\)
+            \[
+                f(x) = \begin{cases}
+                    1 & g(x, x) = 0 \\
+                    \text{undefined} & g(x, x) = 1
+                \end{cases}
+            \]
+            
+            Claim: if \(g\) is partial recursive, then so is \(f\).
+            Therefore, \(f\) is TM-computable.
+            Therefore, \(f = \varphi_{T_n,1}\) for some \(n\).
+
+            What is \(f(n)\)?
+
+            \(g(n,n)=0 \implies f(n) = 1 \implies g(n, n) = 1\), contradiction.
+
+            \(g(n,n)=1 \implies f(n) \text{ undefined } \implies g(n, n) = 0\), contradiction.
+
+            Therefore, our assumption was wrong and so \(g\) is not partial recursive.
+        \end{proof}
+    \end{theorem}
+
+
+    TODO move stuff around.
+    
+    How to encode TM in \(\N\)?
+    Gödel numbering:
+
+    Alphabet symbols are \(s_0, s_1, \ldots\) where \(s_0\) is blank.
+    States are \(q_0, q_1, \ldots\) where \(q_0\) is initial.
+    Transition function \(\subseteq Q\times A \times Q \times A \times \left\{ L, R \right\}\).
+
+    Assign numbers to everything: \(x: L R s_0 q_0 s_1 q_1 \ldots\)
+    \(\ceil{x}: 2 3 4 5 6 7 \ldots\)
+
+    Arrows \(\tau \in \) transition functions, \(t = \left( a, b, c, d, e \right)\)
+    \(\ceil{t} = 2^{\ceil{a}} 3^{\ceil{b}} 5^{\ceil{c}} \cdots\)
+
+    Only thing we need is the arrows.
+    
+    TM by transition functions \(\left\{ t_0, t_1, \ldots \right\}\)
+    is 
+    \(\ceil{t} = 2^{\ceil{t_0}} 3^{\ceil{t_1}} 5^{\ceil{t_2}} \cdots\)
+    
+    So we can feed a TM as an input where we need an \(\N\).
+    
+    If \(x = \ceil{TM}\), the TM is \(T_x\).
+\end{definition}
+\begin{theorem}
+    The number of TMs is countable.
+\end{theorem}
+\begin{theorem}
+    \(\varphi:\N^2\to\N\)
+    \[
+        \varphi(x, y) = \begin{cases}
+            \varphi_{T_x, 1}(y) & x \text{ represents a TM} \\
+            \text{undefined}
+        \end{cases}
+    \]
+    
+    \(\varphi\) simulates a TM.
+    \(\varphi\) is partial recursive.
+    Therefore, \(\varphi\) is TM-computable. ``A universial TM''
+\end{theorem}
 
 \end{document}
