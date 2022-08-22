@@ -435,8 +435,6 @@ Grammars and code are also alternatives.
             1, & x > 0
         \end{cases}
     \end{equation*}
-
-    TODO: show proof/primitive recursion
 \end{theorem}
 \begin{theorem}
     The predecessor function \(Pred:\N\to\N\) is
@@ -446,8 +444,6 @@ Grammars and code are also alternatives.
             x-1, & x > 0
         \end{cases}
     \end{equation*}
-
-    TODO: show proof/primitive recursion
 \end{theorem}
 \begin{theorem}
     The subtraction function \(\dotminus:\N^2\to\N\) is
@@ -457,8 +453,6 @@ Grammars and code are also alternatives.
             x-y, & x \ge y
         \end{cases}
     \end{equation*}
-
-    TODO: show proof/primitive recursion
 \end{theorem}
 \begin{theorem}
     The absolute value function \(\left|x-y\right|:\N^2\to\N\) is
@@ -488,16 +482,12 @@ Grammars and code are also alternatives.
 \begin{theorem}
     If \(f\) is primitive recursive then \(\sum_{i=0}^x f(i)\) is
     also primitive recusrive.
-    
-    TODO: add proof/illustration of prim. recursiveness
 \end{theorem}
 \begin{theorem}
     For every function \(f:\N\to\N\) there is a
     bounded minimisation function \(\min_{i\le y} f(i)\).
     This function gives the smallest \(f(i) \ne 0\),
     and gives \(y+1\) if all \(f(i) = 0\).
-
-    TODO: add proof/illustration of prim. recursiveness
 \end{theorem}
 \begin{note}
     The following are not primitive recursive:
@@ -654,5 +644,79 @@ Grammars and code are also alternatives.
 \begin{remark}
     Primitive recusrion is not the ``right'' definition of ``computable''.
 \end{remark}
+
+\begin{theorem}
+    Predicates are 
+\end{theorem}
+\begin{definition}
+    The characteristic function of a predicate \(P\)
+    is 
+    \[\chi_P(x_1,\ldots,x_n) = \begin{cases}
+        1 & P(x_1,\ldots,x_n) \\
+        0 & \lnot P(x_1,\ldots,x_n) \\
+    \end{cases}\]
+\end{definition}
+\begin{theorem}
+    A predicate is primitive recursive when \(\chi_P\)
+    is primtive recursive.
+\end{theorem}
+\begin{theorem}
+    The following functions and predicates
+    are primtive recursive.
+    \begin{itemize}
+        \item \(\ne\) (\(Sg(x\dotminus y)+Sg(y\dotminus x)\))
+        \item \(=\) (\(1\dotminus \chi_\ne(x,y) \))
+        \item \(\lnot P\)
+        \item \(p \land q\) (\(\chi_p \cdot\chi_q\))
+        \item \(p \lor q\) (use De Morgan's law)
+    \end{itemize}
+\end{theorem}
+\begin{theorem}
+    Bounded exists (\(\exists y\le z\)) and
+    bounded forall (\(\forall y\le z\))  are primtive recursive.
+\end{theorem}
+\begin{theorem}
+    \(x|y\) is primitive recusrive.
+    \[
+    \chi_{x|y}=\exists_{k\le y} (y=k\cdot x)  
+    \]
+\end{theorem}
+\begin{theorem}
+    Prime tests and a function for the \(n\)th prime
+    are primtiive recursive.
+\end{theorem}
+\begin{definition}[Iteration]
+    For a function \(f:X\to X\),
+    the \(i\)th iterate of \(f\)
+    is \(F:X\times \N \to X\) where
+    \begin{align*}
+        F(x, i) &= \overbrace{f(f(\ldots(f(x))\ldots))}^{i \text{ copies of } f} \\
+        F(x, 0) &= x
+    \end{align*}
+\end{definition}
+\begin{theorem}
+    If \(f\) is primitive recursive,
+    \(F\) is also primitive recursive.
+\end{theorem}
+\begin{theorem}
+    Iteration is equivalent to primitive recursion,
+    i.e. the class of primitive recursive functions
+    is the smallest class of functions containing
+    the intial functions and is closed under
+    composition and iteration. 
+\end{theorem}
+\begin{definition}[Hyperoperation]
+    \begin{align*}
+        a[1]b &= a + b \\
+        a[2]b &= ab \\
+        a[3]b &= a^b \\
+        a[k]b &= \underbrace{ a[k-1]( a[k-1] ( \ldots a[k-1]a \ldots ) ) }_{b \text{ times}}
+    \end{align*}
+\end{definition}
+\begin{theorem}
+    If \(f\) is primitive recursive,
+    the running time to compute \(f\) (on a TM)
+    is at most \(2[k]n\) for some fixed \(k\in\N\).
+\end{theorem}
 
 \end{document}
