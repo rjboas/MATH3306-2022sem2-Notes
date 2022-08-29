@@ -904,6 +904,22 @@ Is formal arithmetic eifficently axiomatised?
         \rightarrow Yes, the set of induction axioms
         is recusively enumerable so we can still check.
 \end{itemize} 
+\begin{definition}[Representability]
+    Let \(R\) be a \(k\)-ary relation (i.e. \(R\subseteq\N^k\)).
+    \(R\) is represented by the formula
+    \(\varphi(v_1,\ldots,v_k)\) if
+    \begin{itemize}
+        \item  \(T \vdash \varphi(\bar{n_1},\ldots,\bar{n_k})\) when \(R(n_1,\ldots,n_k)\) is true
+        \item  \(T \vdash \lnot\varphi(\bar{n_1},\ldots,\bar{n_k})\) when \(R(n_1,\ldots,n_k)\) is false
+    \end{itemize}
+\end{definition}
+\begin{theorem}
+    If \(R\) is recusrive, \(R\) is represented in the FA \(T\).
+    
+    Examples: \(x|y\), \(p\) is prime,
+    \(m\) is the GN of a formula with one free variable,
+    \(m,n\) where \(m\) is the GN of a proof of the sentence \(n\).
+\end{theorem}
 \begin{theorem}[Gödel's first incompleteness theorem]
     Let \(T\) be a formal system that
     \begin{itemize}
@@ -946,30 +962,43 @@ Is formal arithmetic eifficently axiomatised?
     Fact: we can use consistency rather than \(\omega\)-consistency to prove this.
     
     \begin{proof}[Proof \#2 (via undecidable statement)]
-        Gödel's first incompleteness theorem variant:
+        Using FA as our formal system.
+        Define \(Pf(x,y,z)\subseteq\N^3\) to be
+        \(y\) is the GN of a formula \(\varphi\) with one free variable
+        and \(x\) as a proof of \(\varphi(\bar{z})\). 
+        Recusive \(\therefore\) is represented by formula \(\underline{Pf}(x,y,z)\).
+        Build new formula \(\psi(y):\nexists x Pf(x,y,y)\),
+        (i.e. FA cannot prove \(\psi_y(\bar{y})\)).
+        Let \(g\) be the GN of \(\psi\).
+        \(\psi(g)\) enocdes ``FA cannot prove \(\psi(g)\)''.
+        
         \begin{itemize}
-            \item If FA (we'll use Peano arithmetic) is \(\omega\)-consistent,
-            then \(\exists\) an undecidable statement,
-            i.e. \(FA \nvdash \varphi\) and \(FA \nvdash \lnot \varphi\).
+            \item If FA \(\vdash \psi(\bar{g})\),
+        Let \(m\) be the GN of the proof.
+        Therefore, \(Pf(m,g,g)\) is true.
+        Therefore, FA \(\vdash \underline{Pf}(\bar{m}, \bar{g}, \bar{g})\).
+        Therefore, FA \(\vdash \exists x\underline{Pf}(x, \bar{g}, \bar{g})\).
+        Therefore, FA \(\vdash \lnot\psi(\bar{g})\).
+        Therefore, FA is inconsistent.
+        Contradiction (elided: show \(\omega\)-consistency implies consistency).
+            \item If FA \(\vdash \lnot\psi(\bar{g})\),
+        Then FA \(\nvdash \psi(\bar(g))\).
+        Therefore, \(\forall m, Pf(m,g,g)\) is false.
+        Therefore, \(\forall m, FA \vdash \lnot\underline{Pf}(\bar{m}, \bar{g}, \bar{g})\).
+        Therefore, FA \(\nvdash \exists m \underline{Pf}(m, \bar{g}, \bar{g})\).
+        Therefore, FA \(\nvdash \lnot \psi(\bar{g})\).
+        Contradiction.
         \end{itemize}
-        not finished during lecture.
+        Therefore, \(\psi(\bar{g})\) is undecidable.
     \end{proof}
+    
+    This proof can be extended to any extension \(\Sigma\) of FA
+    where ``\(n\) is the GN of an axiom in \(\Sigma\)'' is recursive.
 \end{theorem}
 \begin{theorem}[Gödel's second incompleteness theorem]
     If FA is consistent,
     then \(FA \nvdash con\) where \(con\) encodes ``\(FA \nvdash \bar{0} = \bar{1}\)''.
 \end{theorem}
-\begin{proof}
-    Let \(T\) be any formal system that contains
-    Robinson's theory Q.
-    Let \(R\) be a \(k\)-ary relation (i.e. \(R\subseteq\N^k\)).
-    \(R\) is represented by the formula
-    \(\varphi(v_1,\ldots,v_k)\) if
-    \begin{itemize}
-        \item  \(T \vdash \varphi(\bar{n_1},\ldots,\bar{n_k})\) when \(R(n_1,\ldots,n_k)\) is true
-        \item  \(T \vdash \lnot\varphi(\bar{n_1},\ldots,\bar{n_k})\) when \(R(n_1,\ldots,n_k)\) is false
-    \end{itemize}
-    to be completed in lectures.
-\end{proof}
+
 
 \end{document}
