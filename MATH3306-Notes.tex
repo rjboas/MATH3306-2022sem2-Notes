@@ -6,6 +6,7 @@
 % Additional packages & macros
 \geometry{a4paper}
 \DeclareMathOperator{\blank}{\text{\textvisiblespace}}
+\setmathfont[range=\setminus]{Asana Math} % Fix setminus not showing
 
 \usepackage{tikz}
 \usetikzlibrary{automata} % Import library for drawing automata
@@ -849,5 +850,126 @@ and is closed under composition, primitive recusrion and regular minimisation.
     \(\varphi\) is partial recursive.
     Therefore, \(\varphi\) is TM-computable. ``A universial TM''
 \end{theorem}
+\newpage
+\section{Formal systems}
+\begin{definition}[Formal system]
+    A formal system is a set of grammars with a set of axioms and inferences.
+\end{definition}
+\begin{definition}[Robinson's theory Q]
+
+\end{definition}
+\begin{definition}[Peano arithmetic]
+
+\end{definition}
+\begin{definition}[Consistency]
+    \(T\) is consistent if \(\nexists\) statement \(Q\)
+    \st \(T\vdash Q\) and \(T\vdash\lnot Q\).
+\end{definition}
+\begin{definition}[\(\omega\)-consistency]
+    \(T\) is \(\omega\)-consistent if \(\nexists\) formula
+    \(\varphi(x)\) \st
+    \begin{itemize}
+        \item \(T \vdash \varphi(\bar{n})\) for every numeral \(\bar{n}\), and
+        \item \(T \vdash \lnot \forall x\, \varphi(x)\).
+    \end{itemize}
+    I.e.\ you cannot prove every individual case of a formula and also
+    prove there exists a counterexample.
+\end{definition}
+\begin{definition}[Numeral]
+    A numeral is a logical symbol \(SS\cdots S 0\)
+    for some number of `S's.
+    Define \(\bar{n}\) to be the numeral with \(n\) `S's.
+\end{definition}
+\begin{definition}[Recusrively enumerable]
+    A set \(A \subseteq \N\) is recusively enumerable if
+    \(A\) is a range of some recursive function \(f:\N\to\N\)
+    or \(A = \emptyset\).
+    
+    I.e.\ there is a turing machine which computes the members of the set \(A\)
+    after a finite number of steps.
+\end{definition}
+\begin{definition}[Theorem]
+    A theorem \(Q\) in \(T\) is a statement in \(T \st T \vdash Q\).
+\end{definition}
+\begin{definition}[Efficiently axiomatised]
+    A formal system \(T\) is efficiently axiomatised if
+    the set of all theorems in \(T\) is recusrively enumerable.
+\end{definition}
+Is formal arithmetic eifficently axiomatised?
+\begin{itemize}
+    \item Robinson's theory Q
+        \rightarrow Yes, test \(0, 1, \ldots\) as the Gödel number of a proof
+        (easy since finitely many axioms).
+    \item Peano arithmetic
+        \rightarrow Yes, the set of induction axioms
+        is recusively enumerable so we can still check.
+\end{itemize} 
+\begin{theorem}[Gödel's first incompleteness theorem]
+    Let \(T\) be a formal system that
+    \begin{itemize}
+        \item is efficiently axiomatised,
+        \item is \(\omega\)-consistent, and
+        \item contains Robinson's theory Q.
+    \end{itemize}
+    
+    Then \(T\) is incomplete,
+    i.e. there are true statements without a proof (nor proof of the negation).
+    
+    \begin{proof}[Proof \#1 (via Halting problem)]
+        Assume \(T\) is complete.
+        Aim to solve the halting problem: define
+        \[Halt(m,x)=\begin{cases}
+            1 & \text{if \(TM_{m,1}\) halts on input } x \\
+            0 & \text{otherwise}
+        \end{cases}\]
+        Simelataneously,
+        \begin{itemize}
+            \item simulate \(TM_{m,1}\) on input \(x\) with a universal TM, and
+            \item enumarate all theorems in \(T\)
+            until we see ``\(TM_{M,1}(x)\) does not halt.''
+            i.e. (and let \(\varphi\) be) \(\forall s\), \(s\) is not a sequence of steps for
+            \(TM_{m}\) that starts with input \(x\) and ends in a halting state.
+        \end{itemize}
+        If the first halts, output 1.
+        If the latter produces a theorem, output 0.
+        This algorithm must fail for some \(m,x\), else we can solve the halting problem.
+        Therefore, \(m\) does not halt on \(x\), and \(\varphi\) is not a theorem of \(T\).
+        This means \(T \nvdash \varphi\).
+        If \(T\vdash \lnot \varphi\), \(T\vdash \exists s \st s\) is a sequence which does halt.
+        But, give me a sequence \(s\), I can simulate \(TM_{m}\) on \(x\)
+        and write out its behaviour, which shows \(T \vdash s\) is not a halting sequence.
+        By \(\omega\)-consistency, \(T\nvdash \lnot \varphi\).
+        
+        Therefore, \(T\) is incomplete.
+    \end{proof}
+    
+    Fact: we can use consistency rather than \(\omega\)-consistency to prove this.
+    
+    \begin{proof}[Proof \#2 (via undecidable statement)]
+        Gödel's first incompleteness theorem variant:
+        \begin{itemize}
+            \item If FA (we'll use Peano arithmetic) is \(\omega\)-consistent,
+            then \(\exists\) an undecidable statement,
+            i.e. \(FA \nvdash \varphi\) and \(FA \nvdash \lnot \varphi\).
+        \end{itemize}
+        not finished during lecture.
+    \end{proof}
+\end{theorem}
+\begin{theorem}[Gödel's second incompleteness theorem]
+    If FA is consistent,
+    then \(FA \nvdash con\) where \(con\) encodes ``\(FA \nvdash \bar{0} = \bar{1}\)''.
+\end{theorem}
+\begin{proof}
+    Let \(T\) be any formal system that contains
+    Robinson's theory Q.
+    Let \(R\) be a \(k\)-ary relation (i.e. \(R\subseteq\N^k\)).
+    \(R\) is represented by the formula
+    \(\varphi(v_1,\ldots,v_k)\) if
+    \begin{itemize}
+        \item  \(T \vdash \varphi(\bar{n_1},\ldots,\bar{n_k})\) when \(R(n_1,\ldots,n_k)\) is true
+        \item  \(T \vdash \lnot\varphi(\bar{n_1},\ldots,\bar{n_k})\) when \(R(n_1,\ldots,n_k)\) is false
+    \end{itemize}
+    to be completed in lectures.
+\end{proof}
 
 \end{document}
