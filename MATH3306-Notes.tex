@@ -998,6 +998,21 @@ Is formal arithmetic eifficently axiomatised?
 \begin{theorem}[Gödel's second incompleteness theorem]
     If FA is consistent,
     then \(FA \nvdash con\) where \(con\) encodes ``\(FA \nvdash \bar{0} = \bar{1}\)''.
+    
+    \begin{proof}
+        Define \(Prf(x,y) \subseteq \N^2\)
+        as a relation that ``\(x\) is a proof of \(y\)''
+        where \(x\) is a GN of a proof and \(y\) is a GN of a sentence.
+        \(Prf(x,y)\) is represented by the formula \(\underline{Prf}(x,y)\).
+        Let \(n\) be the GN of the sentence ``\(\bar{0}=\bar{1}\)''.
+        Let \(con\) (consistency) be \(\forall x, \lnot \underline{Prf}(x,\bar{n})\).
+        Then (Gödel): FA is consistent \(\implies\) FA \(\forall con\).
+        \(con \implies \psi(\bar{g})\) (from first theorem proof).
+        Therefore, FA \(\vdash con \implies \psi(\bar{g})\).
+        By the first incompleteness theorem, FA \(\nvdash \psi(\bar{g})\).
+        If FA \(\vdash con\), FA \(\vdash \psi(\bar{g})\). Contradiction.
+        Therefore, FA \(\nvdash con\).
+    \end{proof}
 \end{theorem}
 
 
